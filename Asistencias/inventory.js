@@ -4,7 +4,7 @@ export default class Inventory {
     constructor(tableInventory) {
         this._tableInventory = tableInventory;
         this._allProducts = [];
-        localStorage.removeItem("products");
+        // localStorage.removeItem("products");
         this._initInventory();
     }
 
@@ -47,15 +47,15 @@ export default class Inventory {
     }
 
     _addExistence(ID, addedExistence) {
-        this._allProducts = JSON.parse(localStorage.getItem("products"));
-        console.log(this._allProducts);
+        let products = JSON.parse(localStorage.getItem("products"));
+        console.log(products);
 
-        this._allProducts.forEach((product, index) => {
-            if (this._allProducts[index].productID === ID) {
-                this._allProducts[index].productQuantity = Number(this._allProducts[index].productQuantity) + Number(addedExistence);
-                localStorage.setItem("products", JSON.stringify(this._allProducts));
+        products.forEach((product, index) => {
+            if (product.productID === ID) {
+                product.productQuantity = Number(product.productQuantity) + Number(addedExistence);
+                localStorage.setItem("products", JSON.stringify(products));
                 let row = this._tableInventory.rows[index+1];
-                row.cells[2].innerHTML = this._allProducts[index].productQuantity;
+                row.cells[2].innerHTML = product.productQuantity;
             }
         });
     } 
@@ -67,7 +67,7 @@ export default class Inventory {
         products.forEach((product, index) => {
             if (product.productID === ID) {
                 product.productQuantity = Number(product.productQuantity) - Number(subtractedExistence);
-                localStorage.setItem("products", JSON.stringify(product));
+                localStorage.setItem("products", JSON.stringify(products));
                 let row = this._tableInventory.rows[index+1];
                 row.cells[2].innerHTML = product.productQuantity;
             }
